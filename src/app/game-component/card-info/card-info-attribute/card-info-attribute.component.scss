@@ -1,0 +1,30 @@
+@import "../../../../variables";
+
+.value {
+  &.correct {
+    color: $correct-color !important;
+    &:before {
+      content: '✓ ';
+    }
+  }
+
+  &.partial {
+    color: $partial-color;
+  }
+
+  &.lower {
+    color: $lower-color;
+
+    &:before {
+      content: '˅ ';
+    }
+  }
+
+  &.higher {
+    color: $higher-color;
+
+    &:before {
+      content: '˄ ';
+    }
+  }
+}

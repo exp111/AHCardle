@@ -45,7 +45,7 @@
       <span class="value"
             [class.correct]="hasTypeValue"
             [class.filter]="hasFilter('type')"
-            (click)="setFilter('type')">{{ hasTypeValue ? getType(correctCard().type) : PLACEHOLDER }}</span>
+            (click)="setFilter('type')">{{ hasTypeValue ? getType(correctCard()) : PLACEHOLDER }}</span>
       <span class="text-muted"> Type</span>
     </div>
     <!-- faction/aspect -->
@@ -54,7 +54,7 @@
       <span class="value"
             [class.correct]="hasFactionValue"
             [class.filter]="hasFilter('faction')"
-            (click)="setFilter('faction')">{{ hasFactionValue ? getFaction(correctCard().faction) : PLACEHOLDER }}</span>
+            (click)="setFilter('faction')">{{ hasFactionValue ? getFaction(correctCard()) : PLACEHOLDER }}</span>
       <span class="text-muted"> Aspect</span>
     </div>
   </div>

@@ -12,11 +12,13 @@ import {
 } from '../../helpers';
 import {NgTemplateOutlet} from '@angular/common';
 import {IS_DEV} from '../../const';
+import {CardInfoAttribute} from './card-info-attribute/card-info-attribute.component';
 
 @Component({
   selector: 'app-card-info',
   imports: [
-    NgTemplateOutlet
+    NgTemplateOutlet,
+    CardInfoAttribute
   ],
   templateUrl: './card-info.component.html',
   styleUrl: './card-info.component.scss',
@@ -35,7 +37,15 @@ export class CardInfoComponent {
   }
 
   getCost(card: CardData) {
-    return card.cost ?? "-";
+    return (card.cost ?? "-").toString();
+  }
+
+  getType(card: CardData) {
+    return getType(card.type);
+  }
+
+  getFaction(card: CardData) {
+    return getFaction(card.faction);
   }
 
   hasAllResources() {
@@ -66,39 +76,7 @@ export class CardInfoComponent {
     return this.card().traits.some(t => this.correctCard().traits.includes(t));
   }
 
-  answerIsHigher(val?: number, correct?: number) {
-    // nothing lower than null (-)
-    if (correct == null) {
-      return false;
-    }
-
-    // higher if val not null
-    if (val == null) {
-      return true;
-    }
-
-    // otherwise if lower
-    return val < correct;
-  }
-
-  answerIsLower(val?: number, correct?: number) {
-    // nothing lower than null (-)
-    if (val == null) {
-      return false;
-    }
-
-    // higher if val not null
-    if (correct == null) {
-      return true;
-    }
-
-    // otherwise if higher
-    return val > correct;
-  }
-
   protected readonly getPack = getPack;
-  protected readonly getFaction = getFaction;
-  protected readonly getType = getType;
   protected readonly getCardMarvelCDBURL = getCardMarvelCDBURL;
   protected readonly IS_DEV = IS_DEV;
 }
