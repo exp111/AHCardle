@@ -34,7 +34,9 @@
         <div class="btn-group">
           <button type="button" class="btn btn-outline-primary" (click)="resetDay()">Reset</button>
           <button type="button" class="btn btn-outline-primary" (click)="logSolution()">Log solution</button>
-          <button type="button" class="btn btn-outline-primary" (click)="logSolutionNoCache()">Log solution (not cached)</button>
+          <button type="button" class="btn btn-outline-primary" (click)="logSolutionNoCache()">Log solution (not
+            cached)
+          </button>
           <button type="button" class="btn btn-outline-primary" (click)="logShareLink()">Log share link</button>
           <button type="button" class="btn btn-outline-primary" (click)="setDayForCode()">Set Day for Code</button>
         </div>
@@ -63,7 +65,8 @@
         <ng-template #datepickerFooter>
           <div class="btn-group d-flex justify-content-end">
             <button type="button" class="btn btn-sm btn-outline-primary" (click)="setToday(); d.close()">Today</button>
-            <button type="button" class="btn btn-sm btn-outline-primary" (click)="setRandomDay(); d.close()">Random</button>
+            <button type="button" class="btn btn-sm btn-outline-primary" (click)="setRandomDay(); d.close()">Random
+            </button>
           </div>
         </ng-template>
         <input type="date" [(ngModel)]="date" [maxDate]="todayNgbDate" class="form-control"
@@ -88,11 +91,13 @@
         </label>
       </div>
       <!-- Guess Info -->
-      <app-guess-info [card]="null!"
-                      [correctCard]="cardToGuess()"
-                      [guesses]="guesses()"
-                      [germanLanguage]="germanLanguage()"
-                      [(filter)]="filter"></app-guess-info>
+      <ng-container [ngComponentOutlet]="guessInfoComponent"
+       [ngComponentOutletInputs]="{
+      correctCard: cardToGuess(),
+      guesses: guesses(),
+      germanLanguage: germanLanguage(),
+      filter: filter
+      }"></ng-container>
       @if (!cardGuessed()) {
         <!-- Search -->
         <div class="position-relative">

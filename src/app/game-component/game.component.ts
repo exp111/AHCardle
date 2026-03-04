@@ -25,6 +25,7 @@ import {GITHUB_PAGES_URL, IS_DEV} from '../const';
 import {CustomDayComponent} from './custom-day-component/custom-day.component';
 import {from} from 'rxjs';
 import {HelpModalComponent} from './help-modal/help-modal.component';
+import {CommonModule, NgComponentOutlet} from '@angular/common';
 
 export type FilterType =
   keyof CardData
@@ -60,9 +61,10 @@ interface UserData {
   imports: [
     FormsModule,
     CardInfoComponent,
-    GuessInfoComponent,
     NgbInputDatepicker,
-    CustomDayComponent
+    CustomDayComponent,
+    CommonModule,
+    NgComponentOutlet
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss',
@@ -119,6 +121,9 @@ export class GameComponent implements OnInit {
   guesses = computed(() => this.userData()[this.day()]?.guesses ?? []);
   cardGuessed = computed(() => this.guesses().includes(this.cardToGuess()));
 
+  cardInfoComponent = CardInfoComponent;
+  guessInfoComponent = GuessInfoComponent;
+
   constructor() {
     // write data to localstorage
     effect(() => {
@@ -137,7 +142,7 @@ export class GameComponent implements OnInit {
   ngOnInit() {
     // fetch cards
     this.loading.set(true);
-    this.dataService.getData().subscribe({
+    this.getData().subscribe({
       next: data => {
         this.cards.set(data);
         this.loadDataFromLocalStorage();
@@ -153,6 +158,10 @@ export class GameComponent implements OnInit {
       this.showHelp();
       localStorage.setItem(this.LOCAL_STORAGE_HELP_KEY, "true");
     }
+  }
+
+  getData() {
+    return this.dataService.getData();
   }
 
   loadDataFromLocalStorage() {
