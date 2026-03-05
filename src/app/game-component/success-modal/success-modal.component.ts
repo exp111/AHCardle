@@ -37,6 +37,23 @@ export class SuccessModalComponent {
     this.activeModal.close("reset");
   }
 
+  // configs for each game mode
+  modeConfigs: Record<string, {legend: string, fields: (keyof CardData)[]}> = {
+    "": {
+      legend: "🗨️🪙👪🅰️🗓️💰📖🃏",
+      fields: ["name", "cost", "type", "faction", "year", "resources", "packs", "traits"]
+    },
+    // same as standard
+    "expert": {
+      legend: "🗨️🪙👪🅰️🗓️💰📖🃏",
+      fields: ["name", "cost", "type", "faction", "year", "resources", "packs", "traits"]
+    },
+    "ally": {
+      legend: "🗨️🪙❤️🅰️🗓️🗡️🧠🃏",
+      fields: ["name", "cost", "health", "faction", "year", "attack", "thwart", "traits"]
+    }
+  }
+
   share(addSpoileredCardName = false) {
     let share = "";
     if (this.mode) {
@@ -45,19 +62,22 @@ export class SuccessModalComponent {
     share += `Marvel Champions Cardle ${this.day} in ${this.guesses.length} ${this.guesses.length == 1 ? "Guess" : "Guesses"}\n`;
     share += `${GITHUB_PAGES_URL}\n\n`;
 
+    let config = this.modeConfigs[this.mode];
+    if (!config) {
+      console.error(`No config for mode ${this.mode} found. Defaulting to standard.`);
+      config = this.modeConfigs[""];
+    }
+
     // emoji legend
-    share += "🗨️🪙👪🅰️🗓️💰📖🃏\n";
+    share += `${config.legend}\n`;
     let tries: string[] = [];
     for (let guess of this.guesses) {
       let text = '';
-      text += this.checkName(guess);
-      text += this.checkValue(guess, "cost");
-      text += this.checkValue(guess, "type");
-      text += this.checkValue(guess, "faction");
-      text += this.checkValue(guess, "year");
-      text += this.checkArray(guess, "resources");
-      text += this.checkArray(guess, "packs");
-      text += this.checkArray(guess, "traits");
+      // iterate over fields and check each value
+      for (let field of config.fields) {
+        text += this.check(guess, field);
+      }
+      // add spoilered name at the end if wanted
       if (addSpoileredCardName) {
         text += ` ||${this.getName(guess)}||`;
       }
@@ -80,6 +100,17 @@ export class SuccessModalComponent {
         content: "Could not write to clipboard."
       })
     }
+  }
+
+  check(guess: CardData, field: keyof CardData) {
+    if (field == "name") {
+      return this.checkName(guess);
+    }
+
+    if (Array.isArray(guess[field])) {
+      return this.checkArray(guess, field as CardDataArrayField);
+    }
+    return this.checkValue(guess, field);
   }
 
   // return green if correct, yellow if first letter matches, wrong otherwise
