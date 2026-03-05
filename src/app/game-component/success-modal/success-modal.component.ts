@@ -1,15 +1,16 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, Type} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {CardData, CardDataArrayField} from '../../../model/cardData';
 import {CardInfoComponent} from '../card-info/card-info.component';
 import {capitalize, getCardName, getShareLink} from '../../helpers';
 import {ToastService} from '../../../services/toast.service';
 import {GITHUB_PAGES_URL} from '../../const';
+import {NgComponentOutlet} from '@angular/common';
 
 @Component({
   selector: 'app-success-modal',
   imports: [
-    CardInfoComponent
+    NgComponentOutlet
   ],
   templateUrl: './success-modal.component.html',
   styleUrl: './success-modal.component.scss',
@@ -18,6 +19,7 @@ export class SuccessModalComponent {
   activeModal = inject(NgbActiveModal);
   toastService = inject(ToastService);
 
+  cardInfoComponent!: Type<CardInfoComponent>;
   mode!: string;
   card!: CardData;
   germanLanguage!: boolean;

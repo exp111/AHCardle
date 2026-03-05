@@ -353,6 +353,7 @@ export class GameComponent implements OnInit {
   showSuccessModal() {
     let ref = this.modalService.open(SuccessModalComponent, {size: "lg"});
     let instance = ref.componentInstance as SuccessModalComponent;
+    instance.cardInfoComponent = this.cardInfoComponent;
     instance.mode = this.MODE;
     instance.card = this.cardToGuess();
     instance.germanLanguage = this.germanLanguage();
