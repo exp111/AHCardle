@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <h4 class="modal-title">Stats</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body">
+  <div class="row row-cols-3 g-1 row-gap-1">
+    <app-stat-card col="6"
+                   title="Played days"
+                   subtitle="{{getPlayedDays().length}}">
+    </app-stat-card>
+    <app-stat-card col="6"
+                   title="Guessed days"
+                   subtitle="{{getGuessedDays().length}}">
+    </app-stat-card>
+    <div class="col-12"></div>
+    <app-stat-card title="Lowest guesses"
+                   subtitle="{{getLowestGuessCount()}}">
+    </app-stat-card>
+    <app-stat-card title="Highest guesses"
+                   subtitle="{{getHighestGuessCount()}}">
+    </app-stat-card>
+    <app-stat-card title="Average guesses"
+                   subtitle="{{getAverageGuessCount()}}">
+    </app-stat-card>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-outline-primary" (click)="activeModal.close()">Close</button>
+</div>

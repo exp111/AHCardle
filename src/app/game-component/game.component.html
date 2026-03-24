@@ -117,7 +117,10 @@
           </div>
         </div>
       } @else {
-        <button type="button" class="btn btn-outline-primary" (click)="showSuccessModal()">Show Result</button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary" (click)="showSuccessModal()">Show Result</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="showStatsModal()">Show Stats</button>
+        </div>
       }
 
       @for (guess of guesses(); track guess.code) {

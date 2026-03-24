@@ -40,6 +40,7 @@ import {CustomDayComponent} from './custom-day/custom-day.component';
 import {from} from 'rxjs';
 import {HelpModalComponent} from './help-modal/help-modal.component';
 import {NgComponentOutlet} from '@angular/common';
+import {StatsModalComponent} from './stats-modal/stats-modal.component';
 
 export type FilterType =
   keyof CardData
@@ -65,7 +66,7 @@ interface SaveData {
 }
 
 // data for the day
-interface UserData {
+export interface UserData {
   card: CardData;
   guesses: CardData[];
 }
@@ -369,6 +370,12 @@ export class GameComponent implements OnInit {
         }
       }
     })
+  }
+
+  showStatsModal() {
+    let ref = this.modalService.open(StatsModalComponent, {size: "lg"});
+    let instance = ref.componentInstance as StatsModalComponent;
+    instance.userData = this.userData();
   }
 
   confetti() {
