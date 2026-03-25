@@ -3,7 +3,8 @@
 ## TODO
 - tutorial
 - set card override (debug)
-- ally mode (card pool is only allies, add additional attributes like hp, thw, atk)
+- stats:
+  - bar graph with average guesses per day 
 
 ## Links
 - [BGdle](http://bgdle.org/)
