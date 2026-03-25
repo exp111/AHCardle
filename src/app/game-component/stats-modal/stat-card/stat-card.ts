@@ -11,7 +11,6 @@ import {Component, computed, input, ViewEncapsulation} from '@angular/core';
 })
 export class StatCard {
   title = input.required<string>();
-  subtitle = input('');
   col = input<string>();
   colClass = computed(() => this.col() ? `col-${this.col()}` : 'col');
 }

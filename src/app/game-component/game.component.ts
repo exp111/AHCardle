@@ -376,6 +376,7 @@ export class GameComponent implements OnInit {
     let ref = this.modalService.open(StatsModalComponent, {size: "lg"});
     let instance = ref.componentInstance as StatsModalComponent;
     instance.userData = this.userData();
+    instance.germanLanguage = this.germanLanguage();
   }
 
   confetti() {

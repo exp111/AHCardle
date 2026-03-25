@@ -5,22 +5,25 @@
 <div class="modal-body">
   <div class="row row-cols-3 g-1 row-gap-1">
     <app-stat-card col="6"
-                   title="Played days"
-                   subtitle="{{getPlayedDays().length}}">
+                   title="Played days">
+      {{getPlayedDays().length}}
     </app-stat-card>
     <app-stat-card col="6"
-                   title="Guessed days"
-                   subtitle="{{getGuessedDays().length}}">
+                   title="Guessed days">
+      {{getGuessedDays().length}}
     </app-stat-card>
     <div class="col-12"></div>
-    <app-stat-card title="Lowest guesses"
-                   subtitle="{{getLowestGuessCount()}}">
+    <app-stat-card title="Lowest guesses">
+      {{getLowestGuessCount()}}
     </app-stat-card>
-    <app-stat-card title="Highest guesses"
-                   subtitle="{{getHighestGuessCount()}}">
+    <app-stat-card title="Highest guesses">
+      {{getHighestGuessCount()}}
     </app-stat-card>
-    <app-stat-card title="Average guesses"
-                   subtitle="{{getAverageGuessCount()}}">
+    <app-stat-card title="Average guesses">
+      {{getAverageGuessCount()}}
+    </app-stat-card>
+    <app-stat-card col="12" title="Most guessed card">
+      {{getMostGuessedCard()}}
     </app-stat-card>
   </div>
 </div>
