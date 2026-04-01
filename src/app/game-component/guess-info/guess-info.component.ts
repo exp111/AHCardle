@@ -2,9 +2,10 @@ import {Component, computed, input, model} from '@angular/core';
 import {CardInfoComponent} from '../card-info/card-info.component';
 import {McCardData, McCardDataArrayField, McCardResource, McPack} from '../../../model/mcCardData';
 import {arraysHaveSameValues, getMcCardImage} from '../../helpers';
-import {Filter, FilterType} from '../game.component';
+import {Filter} from '../game.component';
 import {PLACEHOLDER_IMAGE} from '../../const';
 import {GuessInfoAttributeComponent} from './guess-info-attribute/guess-info-attribute.component';
+import {McFilterType} from '../mc-game/mc-game.component';
 
 @Component({
   selector: 'app-guess-info',
@@ -16,7 +17,7 @@ import {GuessInfoAttributeComponent} from './guess-info-attribute/guess-info-att
 })
 export class GuessInfoComponent extends CardInfoComponent {
   guesses = input.required<McCardData[]>();
-  filter = model.required<Filter[]>();
+  filter = model.required<Filter<McFilterType>[]>();
 
   cardGuessed = computed(() => this.guesses().includes(this.correctCard()));
 
@@ -68,7 +69,7 @@ export class GuessInfoComponent extends CardInfoComponent {
     }]);
   }
 
-  setFilterCustom(field: FilterType, value?: any) {
+  setFilterCustom(field: McFilterType, value?: any) {
     // don't set filter if card was already guessed
     if (this.cardGuessed()) {
       return;

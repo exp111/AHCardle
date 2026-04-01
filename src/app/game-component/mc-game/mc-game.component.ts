@@ -8,10 +8,14 @@ import {McCardData, McCardDataArrayField, McCardResource} from '../../../model/m
 import {arraysHaveSameValues, getMcCardImage, getMcFaction, sortString} from '../../helpers';
 import {McSuccessModalComponent} from '../success-modal/mc-success-modal.component';
 
-export interface McUserData {
-  card: McCardData;
-  guesses: McCardData[];
-}
+export type McFilterType =
+  keyof McCardData
+  | "firstLetter"
+  | "allResources"
+  | "anyResource"
+  | "allTraits"
+  | "anyTrait"
+  | "allPacks";
 
 @Component({
   selector: 'app-game',
@@ -24,7 +28,7 @@ export interface McUserData {
   templateUrl: '../game.component.html',
   styleUrl: '../game.component.scss',
 })
-export class McGameComponent extends GameComponent<McCardData> {
+export class McGameComponent extends GameComponent<McCardData, McFilterType> {
   override successModalType = McSuccessModalComponent;
 
   override matchesFilter(card: McCardData) {

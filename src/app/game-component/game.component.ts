@@ -1,7 +1,8 @@
 import {
-  ApplicationRef, Component,
+  ApplicationRef,
+  Component,
   computed,
-  createComponent, Directive,
+  createComponent,
   effect,
   ElementRef,
   EnvironmentInjector,
@@ -9,19 +10,17 @@ import {
   inputBinding,
   OnInit,
   signal,
-  twoWayBinding, Type,
+  twoWayBinding,
+  Type,
   viewChild
 } from '@angular/core';
 import {DataService} from '../../services/data.service';
 import {CardInfoComponent} from './card-info/card-info.component';
-import {McCardData, McCardDataArrayField} from '../../model/mcCardData';
 import {GuessInfoComponent} from './guess-info/guess-info.component';
 import {
   camelCaseToSpaces,
   dateToNgbDate,
-  getMcCardImage,
   getCardName,
-  getMcFaction,
   getRandomDate,
   getRandomItem,
   getShareLink,
@@ -36,19 +35,9 @@ import {from, Observable} from 'rxjs';
 import {HelpModalComponent} from './help-modal/help-modal.component';
 import {StatsModalComponent} from './stats-modal/stats-modal.component';
 import {CardData} from '../../model/cardData';
-import {AhCardData, AhCardDataArrayField} from '../../model/ahCardData';
 
-export type FilterType =
-  keyof McCardData
-  | "firstLetter"
-  | "allResources"
-  | "anyResource"
-  | "allTraits"
-  | "anyTrait"
-  | "allPacks";
-
-export interface Filter {
-  filter: FilterType;
+export interface Filter<F> {
+  filter: F;
   value: any;
   array: boolean;
 }
@@ -67,7 +56,7 @@ export interface UserData {
 }
 
 @Component({template: ""})
-export abstract class GameComponent<T extends CardData> implements OnInit {
+export abstract class GameComponent<T extends CardData, F> implements OnInit {
   dataService = inject(DataService);
   modalService = inject(NgbModal);
 
@@ -111,8 +100,8 @@ export abstract class GameComponent<T extends CardData> implements OnInit {
         .filter(c => !this.guesses().includes(c)) // filter out already guessed cards
       : []);
   shownSearchResults = computed(() => this.searchResults().slice(0, this.SHOWN_RESULTS));
-  filter = signal<Filter[]>([]);
-  filterDescription = computed(() => this.filter().length ? `[Filter ${this.filter().map(f => `${camelCaseToSpaces(f.filter).toLowerCase()}: ${Array.isArray(f.value) ? f.value.length > 0 ? f.value : 'None' : f.value}`).join(', ')}] ` : "");
+  filter = signal<Filter<F>[]>([]);
+  filterDescription = computed(() => this.filter().length ? `[Filter ${this.filter().map(f => `${camelCaseToSpaces(f.filter as string).toLowerCase()}: ${Array.isArray(f.value) ? f.value.length > 0 ? f.value : 'None' : f.value}`).join(', ')}] ` : "");
 
   // guesses
   userData = signal<Record<string, UserData>>({});
