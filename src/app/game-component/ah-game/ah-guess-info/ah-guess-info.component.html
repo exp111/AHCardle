@@ -41,17 +41,17 @@
                             name="Cost"
                             field="cost"></guess-info-attribute>
     </div>
-    <!-- health -->
+    <!-- type -->
     <div>
       <guess-info-attribute [card]="correctCard()"
                             [guesses]="guesses()"
                             [PLACEHOLDER]="PLACEHOLDER"
                             [hasFilter]="hasFilter.bind(this)"
                             [setFilter]="setFilter.bind(this)"
-                            name="Health"
-                            field="health"></guess-info-attribute>
+                            name="Type"
+                            field="type"></guess-info-attribute>
     </div>
-    <!-- faction/aspect -->
+    <!-- faction -->
     <div>
       <guess-info-attribute [card]="correctCard()"
                             [guesses]="guesses()"
@@ -59,8 +59,18 @@
                             [hasFilter]="hasFilter.bind(this)"
                             [setFilter]="setFilter.bind(this)"
                             [displayFunc]="getFaction"
-                            name="Aspect"
+                            name="Faction"
                             field="faction"></guess-info-attribute>
+    </div>
+    <div>
+      <!-- xp -->
+      <guess-info-attribute [card]="correctCard()"
+                            [guesses]="guesses()"
+                            [PLACEHOLDER]="PLACEHOLDER"
+                            [hasFilter]="hasFilter.bind(this)"
+                            [setFilter]="setFilter.bind(this)"
+                            name="XP"
+                            field="XP"></guess-info-attribute>
     </div>
   </div>
   <div class="col">
@@ -75,24 +85,34 @@
                             field="year"></guess-info-attribute>
     </div>
     <div>
-      <!-- attack -->
-      <guess-info-attribute [card]="correctCard()"
-                            [guesses]="guesses()"
-                            [PLACEHOLDER]="PLACEHOLDER"
-                            [hasFilter]="hasFilter.bind(this)"
-                            [setFilter]="setFilter.bind(this)"
-                            name="Attack"
-                            field="attack"></guess-info-attribute>
+      @let resourcesComplete = hasAllResources();
+      <span class="value fw-bold"
+            [class.partial]="hasAnyResource()"
+            [class.correct]="resourcesComplete"
+            [class.filter]="hasFilter('allResources') || hasFilter('anyResource')"
+            (click)="setFilterCustom(resourcesComplete ? 'allSkills' : 'anySkill')">Skills </span>
+      @for (resource of correctCard().resources; track $index) {
+        @let hasValue = hasResource(resource);
+        <span class="{{hasValue ? `resource ${resource}` : ''}}"
+              [class.correct]="hasValue"
+              [class.filter]="hasFilter('skills', resource)"
+              (click)="setFilterArray('skills', resource)">{{ hasValue ? resource.toUpperCase() : PLACEHOLDER[0] }}</span>
+      }
     </div>
     <div>
-      <!-- thwart -->
-      <guess-info-attribute [card]="correctCard()"
-                            [guesses]="guesses()"
-                            [PLACEHOLDER]="PLACEHOLDER"
-                            [hasFilter]="hasFilter.bind(this)"
-                            [setFilter]="setFilter.bind(this)"
-                            name="Thwart"
-                            field="thwart"></guess-info-attribute>
+      @let packsComplete = hasAllPacks();
+      <span class="value fw-bold"
+            [class.partial]="hasAnyPack()"
+            [class.correct]="packsComplete"
+            [class.filter]="hasFilter('allPacks') || hasFilter('anyPack')"
+            (click)="setFilterCustom(packsComplete ? 'allPacks' : 'anyPack')">Packs </span>
+      @for (pack of correctCard().packs; track pack) {
+        @let hasValue = hasPack(pack);
+        <span class="value"
+              [class.correct]="hasValue"
+              [class.filter]="hasFilter('packs', pack)"
+              (click)="setFilterArray('packs', pack)">{{ hasValue ? pack : PLACEHOLDER }}</span>
+      }
     </div>
     <div class="traits">
       @let traitsComplete = hasAllTraits();

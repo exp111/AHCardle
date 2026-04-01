@@ -10,7 +10,7 @@ export abstract class SuccessModalComponent<T extends CardData, A> {
   activeModal = inject(NgbActiveModal);
   toastService = inject(ToastService);
 
-  cardInfoComponent!: Type<CardInfoComponent>;
+  cardInfoComponent!: Type<CardInfoComponent<any>>;
   mode!: string;
   card!: T;
   germanLanguage!: boolean;

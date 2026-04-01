@@ -1,23 +1,18 @@
 import {Component, computed, input, model} from '@angular/core';
 import {CardInfoComponent} from '../card-info/card-info.component';
-import {McCardData, McCardDataArrayField, McCardResource, McPack} from '../../../model/mcCardData';
-import {arraysHaveSameValues, getMcCardImage} from '../../helpers';
+import {McCardDataArrayField, McCardResource, McPack} from '../../../model/mcCardData';
+import {arraysHaveSameValues, getCardName} from '../../helpers';
 import {Filter} from '../game.component';
 import {PLACEHOLDER_IMAGE} from '../../const';
-import {GuessInfoAttributeComponent} from './guess-info-attribute/guess-info-attribute.component';
 import {McFilterType} from '../mc-game/mc-game.component';
+import {CardData} from '../../../model/cardData';
 
-@Component({
-  selector: 'app-guess-info',
-  imports: [
-    GuessInfoAttributeComponent
-  ],
-  templateUrl: './guess-info.component.html',
-  styleUrls: ['../card-info/card-info.component.scss', './guess-info.component.scss'],
-})
-export class GuessInfoComponent extends CardInfoComponent {
-  guesses = input.required<McCardData[]>();
-  filter = model.required<Filter<McFilterType>[]>();
+@Component({template: ''})
+export abstract class GuessInfoComponent<T extends CardData, F> {
+  correctCard = input.required<T>();
+  guesses = input.required<T[]>();
+  filter = model.required<Filter<F>[]>();
+  germanLanguage = input.required<boolean>();
 
   cardGuessed = computed(() => this.guesses().includes(this.correctCard()));
 
@@ -28,7 +23,13 @@ export class GuessInfoComponent extends CardInfoComponent {
   PLACEHOLDER = "???";
 
   shouldShowPlaceholderImage = computed(() => !this.cardGuessed());
-  override cardImg = computed(() => this.shouldShowPlaceholderImage() ? PLACEHOLDER_IMAGE : getMcCardImage(this.correctCard()));
+  cardImg = computed(() => this.shouldShowPlaceholderImage() ? PLACEHOLDER_IMAGE : this.getCardImage(this.correctCard()));
+
+  abstract getCardImage(card: T): string;
+
+  getName(card: T) {
+    return getCardName(card, this.germanLanguage());
+  }
 
   getFilterIndex(field: string, value?: unknown) {
     return this.filter().findIndex(f => f.filter == field && (!value || value == f.value));
@@ -48,7 +49,7 @@ export class GuessInfoComponent extends CardInfoComponent {
     return this.getFilterIndex(field, value) >= 0;
   }
 
-  setFilter(field: keyof McCardData) {
+  setFilter(field: keyof T) {
     // don't set filter if card was already guessed
     if (this.cardGuessed()) {
       return;
@@ -155,54 +156,17 @@ export class GuessInfoComponent extends CardInfoComponent {
     }]);
   }
 
-  hasValue(field: keyof McCardData) {
+  hasValue(field: keyof T) {
     let correct = this.correctCard()[field];
     return this.guesses().some(g => g[field] === correct);
   }
 
-  hasValueArray(field: McCardDataArrayField, value: never) {
+  hasValueArray(field: A, value: never) {
     return this.guesses().some(g => g[field].includes(value));
   }
 
   hasFirstLetter() {
     let name = this.getName(this.correctCard());
     return this.guesses().some(g => this.getName(g)[0] == name[0]);
-  }
-
-  override hasAllResources() {
-    let resourceString = this.getResourceString(this.correctCard());
-    return this.guesses().some(g => this.getResourceString(g) == resourceString);
-  }
-
-  override hasAnyResource() {
-    return this.correctCard().resources.some(r => this.hasResource(r));
-  }
-
-  hasResource(resource: McCardResource) {
-    return this.hasValueArray("resources", resource as never);
-  }
-
-  hasPack(pack: McPack) {
-    return this.hasValueArray("packs", pack as never);
-  }
-
-  override hasAllPacks() {
-    return this.guesses().some(g => arraysHaveSameValues(g.packs, this.correctCard().packs));
-  }
-
-  override hasAnyPack() {
-    return this.correctCard().packs.some(p => this.hasPack(p));
-  }
-
-  hasTrait(trait: string) {
-    return this.hasValueArray("traits", trait as never);
-  }
-
-  override hasAllTraits() {
-    return this.guesses().some(g => arraysHaveSameValues(g.traits, this.correctCard().traits));
-  }
-
-  override hasAnyTrait() {
-    return this.correctCard().traits.some(t => this.hasTrait(t));
   }
 }
