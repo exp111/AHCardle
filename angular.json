@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "MCCardle": {
+    "AHCardle": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -36,7 +36,7 @@
               "@angular/localize/init"
             ],
             "externalDependencies": [
-              "ChampionsIcons.ttf"
+              "ArkhamIcons.ttf"
             ],
             "stylePreprocessorOptions": {
               "sass": {
@@ -78,10 +78,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "MCCardle:build:production"
+              "buildTarget": "AHCardle:build:production"
             },
             "development": {
-              "buildTarget": "MCCardle:build:development"
+              "buildTarget": "AHCardle:build:development"
             }
           },
           "defaultConfiguration": "development"

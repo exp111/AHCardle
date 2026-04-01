@@ -1,6 +1,6 @@
 import {Component, computed, input, model} from '@angular/core';
 import {CardInfoComponent} from '../card-info/card-info.component';
-import {CardData, CardDataArrayField, CardResource, Pack} from '../../../model/cardData';
+import {CardData, CardDataArrayField, CardSkill, Pack} from '../../../model/cardData';
 import {arraysHaveSameValues, getCardImage} from '../../helpers';
 import {Filter, FilterType} from '../game.component';
 import {PLACEHOLDER_IMAGE} from '../../const';
@@ -80,19 +80,19 @@ export class GuessInfoComponent extends CardInfoComponent {
           return;
         }
         break;
-      case "allResources":
-        if (!this.hasAllResources()) {
+      case "allSkills":
+        if (!this.hasAllSkills()) {
           return;
         }
-        value = this.getResourceString(this.correctCard());
+        value = this.getSkillsString(this.correctCard());
         break;
-      case "anyResource":
-        if (!this.hasAnyResource()) {
+      case "anySkill":
+        if (!this.hasAnySkill()) {
           return;
         }
-        value = this.correctCard().resources
-          .filter(r => this.hasResource(r))
-          .filter((r,i,s) => s.indexOf(r) === i); // unique
+        value = this.correctCard().skills
+          .filter(s => this.hasSkill(s))
+          .filter((s,i,a) => a.indexOf(s) === i); // unique
         break;
       case "allPacks":
         if (!this.hasAllPacks()) {
@@ -168,17 +168,17 @@ export class GuessInfoComponent extends CardInfoComponent {
     return this.guesses().some(g => this.getName(g)[0] == name[0]);
   }
 
-  override hasAllResources() {
-    let resourceString = this.getResourceString(this.correctCard());
-    return this.guesses().some(g => this.getResourceString(g) == resourceString);
+  override hasAllSkills() {
+    let resourceString = this.getSkillsString(this.correctCard());
+    return this.guesses().some(g => this.getSkillsString(g) == resourceString);
   }
 
-  override hasAnyResource() {
-    return this.correctCard().resources.some(r => this.hasResource(r));
+  override hasAnySkill() {
+    return this.correctCard().skills.some(r => this.hasSkill(r));
   }
 
-  hasResource(resource: CardResource) {
-    return this.hasValueArray("resources", resource as never);
+  hasSkill(skill: CardSkill) {
+    return this.hasValueArray("skills", skill as never);
   }
 
   hasPack(pack: Pack) {

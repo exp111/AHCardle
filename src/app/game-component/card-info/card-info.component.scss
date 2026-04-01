@@ -8,29 +8,38 @@
 
 // icons font
 @font-face {
-  font-family: 'marvel-icons';
-  src: url('ChampionsIcons.ttf') format('truetype');
+  font-family: 'thronesdb';
+  src: url('ArkhamIcons.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
-.resource {
-  font-family: 'marvel-icons';
+.skill {
+  font-family: 'thronesdb';
 
-  &.m {
+  // willpower
+  &.p {
     color: #003961;
   }
 
-  &.e {
-    color: #ff8f3f;
+  // intellect
+  &.b {
+    color: #4e1a45;
   }
 
-  &.p {
+  // combat
+  &.c {
     color: #661e09;
   }
 
-  &.w {
+  // agility
+  &.a {
     color: #00543a;
+  }
+
+  // wild
+  &.w {
+    color: #635120;
   }
 
   &.correct {

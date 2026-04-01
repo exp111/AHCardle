@@ -1,13 +1,9 @@
-# MCCardle
+# AHCardle
 
-## TODO
-- tutorial
-- set card override (debug)
-- stats:
-  - bar graph with average guesses per day 
+Fork of [MCCardle](https://github.com/exp111/MCCardle)
 
 ## Links
 - [BGdle](http://bgdle.org/)
-- [MarvelCDB](https://marvelcdb.com/)
-- [MarvelCDB Data](https://github.com/zzorba/marvelsdb-json-data)
+- [ArkhamDB](https://ArkhamDB.com/)
+- [ArkhamDB Data](https://github.com/Kamalisk/arkhamdb-json-data)
 - [Extract Script](https://github.com/exp111/MCStuff/tree/master/Cardle)

@@ -1,9 +1,9 @@
 import {booleanAttribute, Component, computed, input} from '@angular/core';
-import {CardData} from '../../../model/cardData';
+import {CardData, CardSkill} from '../../../model/cardData';
 import {
   arraysHaveSameValues,
   getCardImage,
-  getCardMarvelCDBURL,
+  getCardDBURL,
   getCardName,
   getFaction,
   getPack,
@@ -40,6 +40,10 @@ export class CardInfoComponent {
     return (card.cost ?? "-").toString();
   }
 
+  getXP(card: CardData) {
+    return (card.xp ?? 0).toString();
+  }
+
   getType(card: CardData) {
     return getType(card.type);
   }
@@ -48,16 +52,16 @@ export class CardInfoComponent {
     return getFaction(card.faction);
   }
 
-  hasAllResources() {
-    return this.getResourceString(this.correctCard()) == this.getResourceString(this.card());
+  hasAllSkills() {
+    return this.getSkillsString(this.correctCard()) == this.getSkillsString(this.card());
   }
 
-  hasAnyResource() {
-    return this.card().resources.some(r => this.correctCard().resources.includes(r));
+  hasAnySkill() {
+    return this.card().skills.some(r => this.correctCard().skills.includes(r));
   }
 
-  getResourceString(card: CardData) {
-    return sortString(card.resources.join(""));
+  getSkillsString(card: CardData) {
+    return sortString(card.skills.join(""));
   }
 
   hasAllPacks() {
@@ -77,6 +81,7 @@ export class CardInfoComponent {
   }
 
   protected readonly getPack = getPack;
-  protected readonly getCardMarvelCDBURL = getCardMarvelCDBURL;
+  protected readonly getCardDBURL = getCardDBURL;
   protected readonly IS_DEV = IS_DEV;
+  protected readonly CardSkill = CardSkill;
 }

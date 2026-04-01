@@ -1,5 +1,5 @@
 {
-  "name": "mccardle",
+  "name": "ahcardle",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,7 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --configuration='production' --base-href='/MCCardle/'"
+    "deploy": "ng build --configuration='production' --base-href='/AHCardle/'"
   },
   "prettier": {
     "printWidth": 100,

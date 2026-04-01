@@ -40,18 +40,9 @@ export class SuccessModalComponent {
   // configs for each game mode
   modeConfigs: Record<string, {legend: string, fields: (keyof CardData)[]}> = {
     "": {
-      legend: "🗨️🪙👪🅰️🗓️💰📖🃏",
-      fields: ["name", "cost", "type", "faction", "year", "resources", "packs", "traits"]
+      legend: "🗨️🪙👪🅰️❎🗓️💰📖🃏",
+      fields: ["name", "cost", "type", "faction", "xp", "year", "skills", "packs", "traits"]
     },
-    // same as standard
-    "expert": {
-      legend: "🗨️🪙👪🅰️🗓️💰📖🃏",
-      fields: ["name", "cost", "type", "faction", "year", "resources", "packs", "traits"]
-    },
-    "ally": {
-      legend: "🗨️🪙❤️🅰️🗓️🗡️🧠🃏",
-      fields: ["name", "cost", "health", "faction", "year", "attack", "thwart", "traits"]
-    }
   }
 
   share(addSpoileredCardName = false) {
@@ -59,7 +50,7 @@ export class SuccessModalComponent {
     if (this.mode) {
       share += `[${capitalize(this.mode)}] `;
     }
-    share += `Marvel Champions Cardle ${this.day} in ${this.guesses.length} ${this.guesses.length == 1 ? "Guess" : "Guesses"}\n`;
+    share += `Arkham Horror Cardle ${this.day} in ${this.guesses.length} ${this.guesses.length == 1 ? "Guess" : "Guesses"}\n`;
     share += `${GITHUB_PAGES_URL}\n\n`;
 
     let config = this.modeConfigs[this.mode];

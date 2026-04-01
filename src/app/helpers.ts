@@ -1,14 +1,14 @@
 import {CardData, CardFaction, CardType, Pack} from '../model/cardData';
-import {GITHUB_PAGES_URL, MARVELCDB_BASE_URL, MARVELCDB_CARD_URL, PLACEHOLDER_IMAGE} from './const';
+import {GITHUB_PAGES_URL, ARKHAMDB_BASE_URL, ARKHAMDB_CARD_URL, PLACEHOLDER_IMAGE} from './const';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import Rand from 'rand-seed';
 
 export function getCardImage(card: CardData) {
-  return card.img ? `${MARVELCDB_BASE_URL}${card.img}` : PLACEHOLDER_IMAGE;
+  return card.img ? `${ARKHAMDB_BASE_URL}${card.img}` : PLACEHOLDER_IMAGE;
 }
 
-export function getCardMarvelCDBURL(card: CardData) {
-  return `${MARVELCDB_CARD_URL}/${card.code}`;
+export function getCardDBURL(card: CardData) {
+  return `${ARKHAMDB_CARD_URL}/${card.code}`;
 }
 
 export function getEnumKey(enums: any, val: string) {

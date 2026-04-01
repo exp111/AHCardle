@@ -16,7 +16,7 @@ import {
 import {DataService} from '../../services/data.service';
 import {FormsModule} from '@angular/forms';
 import {CardInfoComponent} from './card-info/card-info.component';
-import {CardData, CardDataArrayField, CardResource} from '../../model/cardData';
+import {CardData, CardDataArrayField, CardSkill} from '../../model/cardData';
 import {GuessInfoComponent} from './guess-info/guess-info.component';
 import {
   arraysHaveSameValues,
@@ -45,8 +45,8 @@ import {StatsModalComponent} from './stats-modal/stats-modal.component';
 export type FilterType =
   keyof CardData
   | "firstLetter"
-  | "allResources"
-  | "anyResource"
+  | "allSkills"
+  | "anySkill"
   | "allTraits"
   | "anyTrait"
   | "allPacks";
@@ -276,13 +276,13 @@ export class GameComponent implements OnInit {
             return false;
           }
           break;
-        case 'allResources':
-          if (sortString(card.resources.join("")) != criterium.value) {
+        case 'allSkills':
+          if (sortString(card.skills.join("")) != criterium.value) {
             return false;
           }
           break;
-        case 'anyResource':
-          if (!criterium.value.every((r: CardResource) => card.resources.includes(r))) {
+        case 'anySkill':
+          if (!criterium.value.every((r: CardSkill) => card.skills.includes(r))) {
             return false;
           }
           break;
@@ -408,7 +408,7 @@ export class GameComponent implements OnInit {
       [this.day()]: {card: this.getCardForSeed(this.seed()), guesses: []}
     }));
     this.filter.set([]);
-    console.log("Reset gueses.");
+    console.log("Reset guesses.");
   }
 
   setToday() {

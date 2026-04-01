@@ -5,7 +5,6 @@ import {getCardName, getRandomItem} from '../helpers';
 import {CardInfoComponent} from '../game-component/card-info/card-info.component';
 import {Router, RouterLink} from '@angular/router';
 import {NgComponentOutlet} from '@angular/common';
-import {AllyCardInfoComponent} from '../game-component/ally-game/ally-card-info/ally-card-info.component';
 
 @Component({
   selector: 'app-viewer-component',
@@ -32,8 +31,6 @@ export class ViewerComponent implements OnInit {
   mode = input<string>();
   cardInfoComponent = computed(() => {
     switch (this.mode()) {
-      case "ally":
-        return AllyCardInfoComponent;
       default:
         return CardInfoComponent;
     }

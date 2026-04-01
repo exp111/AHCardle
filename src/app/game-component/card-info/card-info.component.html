@@ -18,7 +18,7 @@
         }
       </ng-template>
       @if (showMarvelCDBLink()) {
-        <a [href]="getCardMarvelCDBURL(card())" target="_blank" rel="noreferrer noopener" class="fw-bold">
+        <a [href]="getCardDBURL(card())" target="_blank" rel="noreferrer noopener" class="fw-bold">
           <ng-template [ngTemplateOutlet]="nameDisplay"></ng-template>
         </a>
       } @else {
@@ -51,8 +51,17 @@
       <card-info-attribute [card]="card()"
                            [correctCard]="correctCard()"
                            [displayFunc]="getFaction"
-                           name="Aspect"
+                           name="Faction"
                            field="faction"></card-info-attribute>
+    </div>
+    <!-- xp -->
+    <div>
+      <card-info-attribute [card]="card()"
+                           [correctCard]="correctCard()"
+                           [displayFunc]="getXP"
+                           isNumber="true"
+                           name="XP"
+                           field="xp"></card-info-attribute>
     </div>
   </div>
   <div class="col">
@@ -66,11 +75,12 @@
     </div>
     <div>
       <span class="value fw-bold"
-            [class.correct]="correctCard() && getResourceString(correctCard()) == getResourceString(card())"
-            [class.partial]="correctCard() && hasAnyResource()">Resources </span>
-      @for (resource of card().resources; track $index) {
-        <span class="resource {{resource}}"
-              [class.correct]="correctCard() && correctCard().resources.includes(resource)">{{ resource.toUpperCase() }}</span>
+            [class.correct]="correctCard() && getSkillsString(correctCard()) == getSkillsString(card())"
+            [class.partial]="correctCard() && hasAnySkill()">Resources </span>
+      @for (skill of card().skills; track $index) {
+        <!-- extra case for wild as css doesnt like question marks -->
+        <span class="resource {{skill == CardSkill.Wild ? 'w' : skill}"
+              [class.correct]="correctCard() && correctCard().skills.includes(skill)">{{ skill.toUpperCase() }}</span>
       }
     </div>
     <div class="packs">

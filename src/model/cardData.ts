@@ -6,121 +6,42 @@ export interface CardData {
   name: string;
   name_de?: string;
   year: number;
-  resources: CardResource[];
+  xp: number;
+  skills: CardSkill[];
   traits: string[];
   packs: Pack[];
   img: string;
-  // these are both incomplete
-  sets: string[];
   illustrators: string[];
-  // ally related
-  health: number;
-  attack: number;
-  thwart: number;
 }
 
-export type CardDataArrayField = "resources" | "packs" | "traits";
+export type CardDataArrayField = "skills" | "packs" | "traits";
 
 export enum CardType {
   Event = "event",
-  Resource = "resource",
-  Ally = "ally",
-  PlayerSideScheme = "player_side_scheme",
-  Support = "support",
-  Upgrade = "upgrade",
-  // shouldnt be necessary?
-  Attachment = "attachment",
-  Obligation = "obligation",
-  Treachery = "treachery",
-  Minion = "minion",
-  Hero = "hero",
-  AlterEgo = "alter_ego",
-  MainScheme = "main_scheme",
-  SideScheme = "side_scheme",
-  Environment = "environment",
-  EvidenceMeans = "evidence_means",
-  EvidenceMotive = "evidence_motive",
-  EvidenceOpportunity = "evidence_opportunity",
+  Asset = "asset",
+  Skill = "skill"
 }
 
 export enum CardFaction {
-  Hero = "hero",
-  Basic = "basic",
-  Aggression = "aggression",
-  Protection = "protection",
-  Justice = "justice",
-  Leadership = "leadership",
-  Pool = "pool",
-  Campaign = "campaign",
-  // shouldnt be necessary?
-  Encounter = "encounter",
+  Mystic = "mystic",
+  Survivor = "survivor",
+  Neutral = "neutral",
+  Guardian = "guardian",
+  Seeker = "seeker",
+  Rogue = "rogue",
+
+  // shouldnt be in data
+  Mythos = "mythos"
 }
 
-export enum CardResource {
-  Energy = "e",
-  Mental = "m",
-  Physical = "p",
-  Wild = "w"
+export enum CardSkill {
+  Willpower = "p",
+  Intellect = "b",
+  Combat = "c",
+  Agility = "a",
+  Wild = "?"
 }
 
 export enum Pack {
   Core = "core",
-  GreenGoblin = "gob",
-  CaptainAmerica = "cap",
-  MsMarvel = "msm",
-  WreckingCrew = "twc",
-  Thor = "thor",
-  BlackWidow = "bkw",
-  DoctorStrange = "drs",
-  Hulk = "hlk",
-  RonanModular = "ron",
-  RiseOfRedSkull = "trors",
-  OnceAndFutureKang = "toafk",
-  AntMan = "ant",
-  Wasp = "wsp",
-  Quicksilver = "qsv",
-  ScarletWitch = "scw",
-  GalaxysMostWanted = "gmw",
-  StarLord = "stld",
-  Gamora = "gam",
-  Drax = "drax",
-  Venom = "vnm",
-  MadTitansShadow = "mts",
-  Nebula = "nebu",
-  WarMachine = "warm",
-  Hood = "hood",
-  Valkyrie = "valk",
-  Vision = "vision",
-  SinisterMotives = "sm",
-  Nova = "nova",
-  Ironheart = "ironheart",
-  SpiderHam = "spiderham",
-  SPdr = "spdr",
-  MutantGenesis = "mut_gen",
-  Cyclops = "cyclops",
-  Phoenix = "phoenix",
-  Wolverine = "wolv",
-  Storm = "storm",
-  Gambit = "gambit",
-  Rogue = "rogue",
-  MojoMania = "mojo",
-  NextEvolution = "next_evol",
-  Psylocke = "psylocke",
-  Angel = "angel",
-  X23 = "x23",
-  Deadpool = "deadpool",
-  AgeOfApocalypse = "aoa",
-  Iceman = "iceman",
-  Jubilee = "jubilee",
-  Nightcrawler = "ncrawler",
-  Magneto = "magneto",
-  AgentsOfSHIELD = "aos",
-  BlackPanther = "bp",
-  Silk = "silk",
-  Falcon = "falcon",
-  WinterSoldier = "winter",
-  TricksterTakeover = "tt",
-  CivilWar = "cw",
-  WonderMan = "wonder_man",
-  Hercules = "hercules"
 }

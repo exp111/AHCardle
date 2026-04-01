@@ -52,7 +52,7 @@
                             name="Type"
                             field="type"></guess-info-attribute>
     </div>
-    <!-- faction/aspect -->
+    <!-- faction -->
     <div>
       <guess-info-attribute [card]="correctCard()"
                             [guesses]="guesses()"
@@ -60,8 +60,19 @@
                             [hasFilter]="hasFilter.bind(this)"
                             [setFilter]="setFilter.bind(this)"
                             [displayFunc]="getFaction"
-                            name="Aspect"
+                            name="Faction"
                             field="faction"></guess-info-attribute>
+    </div>
+    <!-- xp -->
+    <div>
+      <guess-info-attribute [card]="correctCard()"
+                            [guesses]="guesses()"
+                            [PLACEHOLDER]="PLACEHOLDER"
+                            [hasFilter]="hasFilter.bind(this)"
+                            [setFilter]="setFilter.bind(this)"
+                            [displayFunc]="getFaction"
+                            name="XP"
+                            field="xp"></guess-info-attribute>
     </div>
   </div>
   <div class="col">
@@ -76,18 +87,18 @@
                             field="year"></guess-info-attribute>
     </div>
     <div>
-      @let resourcesComplete = hasAllResources();
+      @let skillsComplete = hasAllSkills();
       <span class="value fw-bold"
-            [class.partial]="hasAnyResource()"
-            [class.correct]="resourcesComplete"
-            [class.filter]="hasFilter('allResources') || hasFilter('anyResource')"
-            (click)="setFilterCustom(resourcesComplete ? 'allResources' : 'anyResource')">Resources </span>
-      @for (resource of correctCard().resources; track $index) {
-        @let hasValue = hasResource(resource);
-        <span class="{{hasValue ? `resource ${resource}` : ''}}"
+            [class.partial]="hasAnySkill()"
+            [class.correct]="skillsComplete"
+            [class.filter]="hasFilter('allSkills') || hasFilter('anySkill')"
+            (click)="setFilterCustom(skillsComplete ? 'allSkills' : 'anySkill')">Skills </span>
+      @for (skill of correctCard().skills; track $index) {
+        @let hasValue = hasSkill(skill);
+        <span class="{{hasValue ? `skill ${skill}` : ''}}"
               [class.correct]="hasValue"
-              [class.filter]="hasFilter('resources', resource)"
-              (click)="setFilterArray('resources', resource)">{{ hasValue ? resource.toUpperCase() : PLACEHOLDER[0] }}</span>
+              [class.filter]="hasFilter('skills', skill)"
+              (click)="setFilterArray('skills', skill)">{{ hasValue ? skill.toUpperCase() : PLACEHOLDER[0] }}</span>
       }
     </div>
     <div class="packs">
