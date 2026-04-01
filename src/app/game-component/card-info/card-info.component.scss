@@ -1,4 +1,5 @@
 @import "../../../variables";
+@import "bootstrap/scss/mixins";
 
 .img {
   max-width: 100%;
@@ -9,7 +10,7 @@
 // icons font
 @font-face {
   font-family: 'thronesdb';
-  src: url('ArkhamIcons.ttf') format('truetype');
+  src: url('ArkhamIcons.otf') format('opentype');
   font-weight: normal;
   font-style: normal;
 }
@@ -20,6 +21,11 @@
   // willpower
   &.p {
     color: #003961;
+
+    //TODO: make color better visible for dark mode
+    [data-bs-theme=dark] & {
+      color: blue;
+    }
   }
 
   // intellect
@@ -44,6 +50,7 @@
 
   &.correct {
     color: $correct-color !important;
+
     &:before {
       content: '✓';
     }
@@ -53,6 +60,7 @@
 .value {
   &.correct {
     color: $correct-color !important;
+
     &:before {
       content: '✓ ';
     }

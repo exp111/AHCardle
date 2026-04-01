@@ -16,7 +16,7 @@ import {
 import {DataService} from '../../services/data.service';
 import {FormsModule} from '@angular/forms';
 import {CardInfoComponent} from './card-info/card-info.component';
-import {CardData, CardDataArrayField, CardSkill} from '../../model/cardData';
+import {CardData, CardDataArrayField, CardSkill, Pack} from '../../model/cardData';
 import {GuessInfoComponent} from './guess-info/guess-info.component';
 import {
   arraysHaveSameValues,
@@ -49,7 +49,8 @@ export type FilterType =
   | "anySkill"
   | "allTraits"
   | "anyTrait"
-  | "allPacks";
+  | "allPacks"
+  | "anyPack";
 
 export interface Filter {
   filter: FilterType;
@@ -88,9 +89,9 @@ export class GameComponent implements OnInit {
 
   // consts
   MODE = "";
-  LOCAL_STORAGE_DATA_KEY = "data";
-  LOCAL_STORAGE_SCHEMA_VERSION_KEY = "schema_version";
-  LOCAL_STORAGE_HELP_KEY = "help_shown";
+  LOCAL_STORAGE_DATA_KEY = "ah_data";
+  LOCAL_STORAGE_SCHEMA_VERSION_KEY = "ah_schema_version";
+  LOCAL_STORAGE_HELP_KEY = "ah_help_shown";
   MINIMUM_SEARCH_LENGTH = 1;
   SHOWN_RESULTS = 25;
   SCHEMA_VERSION = "1";
@@ -288,6 +289,11 @@ export class GameComponent implements OnInit {
           break;
         case 'allPacks':
           if (!arraysHaveSameValues(card.packs, criterium.value)) {
+            return false;
+          }
+          break;
+        case "anyPack":
+          if (!criterium.value.every((p: Pack) => card.packs.includes(p))) {
             return false;
           }
           break;

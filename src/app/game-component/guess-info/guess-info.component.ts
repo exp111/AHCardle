@@ -100,6 +100,12 @@ export class GuessInfoComponent extends CardInfoComponent {
         }
         value = this.correctCard().packs;
         break;
+      case "anyPack":
+        if (!this.hasAnyPack()) {
+          return;
+        }
+        value = this.correctCard().packs.filter(t => this.hasPack(t));
+        break;
       case "allTraits":
         if (!this.hasAllTraits()) {
           return;
@@ -138,10 +144,6 @@ export class GuessInfoComponent extends CardInfoComponent {
     if (!this.hasValueArray(field as any, value as never)) {
       return;
     }
-    // extra check for packs to have all packs guessed
-    if (field == "packs" && !this.hasAllPacks()) {
-      return;
-    }
     // toggle filter if already on
     if (this.removeFilterIfOn(field, value)) {
       return;
@@ -169,8 +171,8 @@ export class GuessInfoComponent extends CardInfoComponent {
   }
 
   override hasAllSkills() {
-    let resourceString = this.getSkillsString(this.correctCard());
-    return this.guesses().some(g => this.getSkillsString(g) == resourceString);
+    let skillString = this.getSkillsString(this.correctCard());
+    return this.guesses().some(g => this.getSkillsString(g) == skillString);
   }
 
   override hasAnySkill() {

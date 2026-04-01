@@ -98,20 +98,21 @@
         <span class="{{hasValue ? `skill ${skill}` : ''}}"
               [class.correct]="hasValue"
               [class.filter]="hasFilter('skills', skill)"
-              (click)="setFilterArray('skills', skill)">{{ hasValue ? skill.toUpperCase() : PLACEHOLDER[0] }}</span>
+              (click)="setFilterArray('skills', skill)">{{ hasValue ? skill.toLowerCase() : PLACEHOLDER[0] }}</span>
       }
     </div>
     <div class="packs">
       @let packsComplete = hasAllPacks();
       <span class="value fw-bold"
             [class.correct]="packsComplete"
-            [class.filter]="hasFilter('allPacks')"
-            (click)="setFilterCustom('allPacks')">Packs </span>
+            [class.filter]="hasFilter('allPacks') || hasFilter('anyPack')"
+            (click)="setFilterCustom(packsComplete ? 'allPacks' : 'anyPack')">Packs </span>
       @for (pack of correctCard().packs; track pack) {
+        @let hasValue = hasPack(pack);
         <span class="value"
-              [class.correct]="packsComplete"
+              [class.correct]="hasValue"
               [class.filter]="hasFilter('packs', pack)"
-              (click)="setFilterArray('packs', pack)">{{ packsComplete ? getPack(pack) : PLACEHOLDER }}</span>
+              (click)="setFilterArray('packs', pack)">{{ hasValue ? getPack(pack) : PLACEHOLDER }}</span>
       }
     </div>
     <div class="traits">

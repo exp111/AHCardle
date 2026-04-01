@@ -76,11 +76,11 @@
     <div>
       <span class="value fw-bold"
             [class.correct]="correctCard() && getSkillsString(correctCard()) == getSkillsString(card())"
-            [class.partial]="correctCard() && hasAnySkill()">Resources </span>
+            [class.partial]="correctCard() && hasAnySkill()">Skills </span>
       @for (skill of card().skills; track $index) {
         <!-- extra case for wild as css doesnt like question marks -->
-        <span class="resource {{skill == CardSkill.Wild ? 'w' : skill}"
-              [class.correct]="correctCard() && correctCard().skills.includes(skill)">{{ skill.toUpperCase() }}</span>
+        <span class="skill {{skill == CardSkill.Wild ? 'w' : skill}}"
+              [class.correct]="correctCard() && correctCard().skills.includes(skill)">{{ skill.toLowerCase() }}</span>
       }
     </div>
     <div class="packs">
@@ -88,7 +88,6 @@
       <span class="value fw-bold"
             [class.correct]="packsCorrect"
             [class.partial]="correctCard() && hasAnyPack()">Packs </span>
-      <!-- Only show packs if all are correct -->
       @for (pack of card().packs; track pack) {
         <span class="value"
               [class.correct]="packsCorrect">{{ getPack(pack) }}</span>
