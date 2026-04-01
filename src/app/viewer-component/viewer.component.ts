@@ -1,5 +1,5 @@
 import {booleanAttribute, Component, computed, inject, input, OnInit, signal} from '@angular/core';
-import {CardData} from '../../model/cardData';
+import {McCardData} from '../../model/mcCardData';
 import {DataService} from '../../services/data.service';
 import {getCardName, getRandomItem} from '../helpers';
 import {CardInfoComponent} from '../game-component/card-info/card-info.component';
@@ -44,7 +44,7 @@ export class ViewerComponent implements OnInit {
   cardGuesses = computed(() => this.cards() && this.guesses() ?
     this.guesses().map(g => this.getCardByCode(g))
     : []);
-  cards = signal<CardData[]>([]);
+  cards = signal<McCardData[]>([]);
   card = computed(() => this.code() ? this.getCardByCode(this.code()) : getRandomItem(this.cards(), this.day()));
 
   ngOnInit() {
@@ -55,7 +55,7 @@ export class ViewerComponent implements OnInit {
       return;
     }
     this.loading.set(true);
-    this.dataService.getData().subscribe({
+    this.dataService.getMCData().subscribe({
       next: data => {
         this.cards.set(data);
         this.loading.set(false);
@@ -67,7 +67,7 @@ export class ViewerComponent implements OnInit {
     })
   }
 
-  getName(card: CardData) {
+  getName(card: McCardData) {
     return getCardName(card, this.german());
   }
 

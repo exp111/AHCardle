@@ -3,11 +3,12 @@ import {GameComponent} from '../game.component';
 import {FormsModule} from '@angular/forms';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {CustomDayComponent} from '../custom-day/custom-day.component';
-import {CardData, CardType} from '../../../model/cardData';
+import {McCardData, McCardType} from '../../../model/mcCardData';
 import {map, Observable} from 'rxjs';
 import {NgComponentOutlet} from '@angular/common';
 import {AllyGuessInfoComponent} from './ally-guess-info/ally-guess-info.component';
 import {AllyCardInfoComponent} from './ally-card-info/ally-card-info.component';
+import {McGameComponent} from '../mc-game/mc-game.component';
 
 @Component({
   selector: 'app-ally-game',
@@ -20,7 +21,7 @@ import {AllyCardInfoComponent} from './ally-card-info/ally-card-info.component';
   templateUrl: '../game.component.html',
   styleUrl: '../game.component.scss',
 })
-export class AllyGameComponent extends GameComponent {
+export class McAllyGameComponent extends McGameComponent {
   // consts
   override MODE = "ally";
   override LOCAL_STORAGE_DATA_KEY = `${this.MODE}_data`;
@@ -34,7 +35,7 @@ export class AllyGameComponent extends GameComponent {
   override guessInfoComponent = AllyGuessInfoComponent;
 
   // only get allies
-  override getData(): Observable<CardData[]> {
-    return super.getData().pipe(map(d => d.filter(c => c.type == CardType.Ally)));
+  override getData(): Observable<McCardData[]> {
+    return super.getData().pipe(map(d => d.filter(c => c.type == McCardType.Ally)));
   }
 }

@@ -1,6 +1,6 @@
 import {Component, computed, input, model} from '@angular/core';
 import {CardInfoComponent} from '../card-info/card-info.component';
-import {CardData, CardDataArrayField, CardResource, Pack} from '../../../model/cardData';
+import {McCardData, McCardDataArrayField, McCardResource, McPack} from '../../../model/mcCardData';
 import {arraysHaveSameValues, getCardImage} from '../../helpers';
 import {Filter, FilterType} from '../game.component';
 import {PLACEHOLDER_IMAGE} from '../../const';
@@ -15,7 +15,7 @@ import {GuessInfoAttributeComponent} from './guess-info-attribute/guess-info-att
   styleUrls: ['../card-info/card-info.component.scss', './guess-info.component.scss'],
 })
 export class GuessInfoComponent extends CardInfoComponent {
-  guesses = input.required<CardData[]>();
+  guesses = input.required<McCardData[]>();
   filter = model.required<Filter[]>();
 
   cardGuessed = computed(() => this.guesses().includes(this.correctCard()));
@@ -47,7 +47,7 @@ export class GuessInfoComponent extends CardInfoComponent {
     return this.getFilterIndex(field, value) >= 0;
   }
 
-  setFilter(field: keyof CardData) {
+  setFilter(field: keyof McCardData) {
     // don't set filter if card was already guessed
     if (this.cardGuessed()) {
       return;
@@ -129,7 +129,7 @@ export class GuessInfoComponent extends CardInfoComponent {
     }]);
   }
 
-  setFilterArray(field: CardDataArrayField, value: any) {
+  setFilterArray(field: McCardDataArrayField, value: any) {
     // don't set filter if card was already guessed
     if (this.cardGuessed()) {
       return;
@@ -154,12 +154,12 @@ export class GuessInfoComponent extends CardInfoComponent {
     }]);
   }
 
-  hasValue(field: keyof CardData) {
+  hasValue(field: keyof McCardData) {
     let correct = this.correctCard()[field];
     return this.guesses().some(g => g[field] === correct);
   }
 
-  hasValueArray(field: CardDataArrayField, value: never) {
+  hasValueArray(field: McCardDataArrayField, value: never) {
     return this.guesses().some(g => g[field].includes(value));
   }
 
@@ -177,11 +177,11 @@ export class GuessInfoComponent extends CardInfoComponent {
     return this.correctCard().resources.some(r => this.hasResource(r));
   }
 
-  hasResource(resource: CardResource) {
+  hasResource(resource: McCardResource) {
     return this.hasValueArray("resources", resource as never);
   }
 
-  hasPack(pack: Pack) {
+  hasPack(pack: McPack) {
     return this.hasValueArray("packs", pack as never);
   }
 

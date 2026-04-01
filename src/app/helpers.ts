@@ -1,13 +1,14 @@
-import {CardData, CardFaction, CardType, Pack} from '../model/cardData';
+import {McCardData, McCardFaction, McCardType, McPack} from '../model/mcCardData';
 import {GITHUB_PAGES_URL, MARVELCDB_BASE_URL, MARVELCDB_CARD_URL, PLACEHOLDER_IMAGE} from './const';
 import {NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import Rand from 'rand-seed';
+import {CardData} from '../model/cardData';
 
-export function getCardImage(card: CardData) {
+export function getCardImage(card: McCardData) {
   return card.img ? `${MARVELCDB_BASE_URL}${card.img}` : PLACEHOLDER_IMAGE;
 }
 
-export function getCardMarvelCDBURL(card: CardData) {
+export function getCardMarvelCDBURL(card: McCardData) {
   return `${MARVELCDB_CARD_URL}/${card.code}`;
 }
 
@@ -15,17 +16,17 @@ export function getEnumKey(enums: any, val: string) {
   return Object.entries(enums).find(([_, v]) => v === val)?.[0] ?? val;
 }
 
-export function getType(type: CardType) {
-  return getEnumKey(CardType, type)
+export function getType(type: McCardType) {
+  return getEnumKey(McCardType, type)
     .replaceAll(/([A-Z])/g, (c) => ` ${c}`); // convert camel case to spaces
 }
 
-export function getFaction(faction: CardFaction) {
-  return getEnumKey(CardFaction, faction);
+export function getFaction(faction: McCardFaction) {
+  return getEnumKey(McCardFaction, faction);
 }
 
 export function getPack(pack: string) {
-  return getEnumKey(Pack, pack)
+  return getEnumKey(McPack, pack)
     .replaceAll(/([A-Z])/g, (c) => ` ${c}`) // convert camel case to spaces
     .replaceAll("S H I E L D", "S.H.I.E.L.D.") // edge cases
     .replaceAll("S Pdr", "SP//dr");
@@ -47,7 +48,7 @@ export function getCardName(card: CardData, translated: boolean) {
   return translated ? card.name_de ?? card.name : card.name;
 }
 
-export function getShareLink(day: string, card: CardData, guesses: CardData[], german?: boolean, mode?: string) {
+export function getShareLink(day: string, card: McCardData, guesses: McCardData[], german?: boolean, mode?: string) {
   return `${GITHUB_PAGES_URL}#/viewer?day=${day}&code=${card.code}&guesses=${guesses.map(g => g.code).join(',')}${german ? `&german=${german}` : ''}${mode ? `&mode=${mode}` : ''}`;
 }
 

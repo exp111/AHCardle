@@ -1,6 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {CardData} from '../model/cardData';
+import {McCardData} from '../model/mcCardData';
+import {AhCardData} from '../model/ahCardData';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +9,11 @@ import {CardData} from '../model/cardData';
 export class DataService {
   httpClient = inject(HttpClient);
 
-  getData() {
-    return this.httpClient.get<CardData[]>("cards.json");
+  getMCData() {
+    return this.httpClient.get<McCardData[]>("cards.json");
+  }
+
+  getAHData() {
+    return this.httpClient.get<AhCardData[]>("cards_ah.json");
   }
 }

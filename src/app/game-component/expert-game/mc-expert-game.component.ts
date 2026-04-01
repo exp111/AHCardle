@@ -5,9 +5,10 @@ import {FormsModule} from '@angular/forms';
 import {CardInfoComponent} from '../card-info/card-info.component';
 import {NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {CustomDayComponent} from '../custom-day/custom-day.component';
-import {CardData} from '../../../model/cardData';
+import {McCardData} from '../../../model/mcCardData';
 import {ExpertWarningModalComponent} from './expert-warning-modal/expert-warning-modal.component';
 import {NgComponentOutlet} from '@angular/common';
+import {McGameComponent} from '../mc-game/mc-game.component';
 
 @Component({
   selector: 'app-expert-game',
@@ -20,7 +21,7 @@ import {NgComponentOutlet} from '@angular/common';
   templateUrl: '../game.component.html',
   styleUrl: '../game.component.scss',
 })
-export class ExpertGameComponent extends GameComponent {
+export class McExpertGameComponent extends McGameComponent {
   // consts
   override MODE = "expert";
   override LOCAL_STORAGE_DATA_KEY = `${this.MODE}_data`;
@@ -43,7 +44,7 @@ export class ExpertGameComponent extends GameComponent {
   }
 
   // reset filter after every guess
-  override guessCard(cardData: CardData) {
+  override guessCard(cardData: McCardData) {
     super.guessCard(cardData);
     this.filter.set([]);
   }

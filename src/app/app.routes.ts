@@ -1,14 +1,21 @@
 import {Routes} from '@angular/router';
-import {CardsComponent} from './cards/cards.component';
+import {McCardsComponent} from './cards/mc-cards/mc-cards.component';
 import {GameComponent} from "./game-component/game.component";
 import {ViewerComponent} from './viewer-component/viewer.component';
-import {ExpertGameComponent} from './game-component/expert-game/expert-game.component';
-import {AllyGameComponent} from './game-component/ally-game/ally-game.component';
+import {McExpertGameComponent} from './game-component/expert-game/mc-expert-game.component';
+import {McAllyGameComponent} from './game-component/ally-game/mc-ally-game.component';
+import {AhCardsComponent} from './cards/ah-cards/ah-cards.component';
+import {AhGameComponent} from './game-component/ah-game/ah-game.component';
+import {McGameComponent} from './game-component/mc-game/mc-game.component';
 
 export const routes: Routes = [
   {
     path: "cards",
-    component: CardsComponent
+    component: McCardsComponent
+  },
+  {
+    path: "ah-cards",
+    component: AhCardsComponent
   },
   {
     path: "viewer",
@@ -16,14 +23,18 @@ export const routes: Routes = [
   },
   {
     path: "expert",
-    component: ExpertGameComponent
+    component: McExpertGameComponent
   },
   {
     path: "ally",
-    component: AllyGameComponent
+    component: McAllyGameComponent
+  },
+  {
+    path: "ah",
+    component: AhGameComponent
   },
   {
     path: "**",
-    component: GameComponent
+    component: McGameComponent
   }
 ];

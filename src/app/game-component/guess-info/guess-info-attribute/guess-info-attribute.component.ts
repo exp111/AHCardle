@@ -1,5 +1,5 @@
 import {Component, computed, input} from '@angular/core';
-import {CardData} from '../../../../model/cardData';
+import {McCardData} from '../../../../model/mcCardData';
 
 @Component({
   selector: 'guess-info-attribute',
@@ -8,15 +8,15 @@ import {CardData} from '../../../../model/cardData';
   styleUrls: ['../../card-info/card-info-attribute/card-info-attribute.component.scss', './guess-info-attribute.component.scss'],
 })
 export class GuessInfoAttributeComponent {
-  card = input.required<CardData>();
-  field = input.required<keyof CardData>();
-  guesses = input.required<CardData[]>();
-  displayFunc = input<(c: CardData) => string>((c: CardData) => c[this.field()]!.toString());
+  card = input.required<McCardData>();
+  field = input.required<keyof McCardData>();
+  guesses = input.required<McCardData[]>();
+  displayFunc = input<(c: McCardData) => string>((c: McCardData) => c[this.field()]!.toString());
   name = input.required<string>();
 
   PLACEHOLDER = input.required<string>();
   hasFilter = input.required<(field: string, value?: unknown) => boolean>();
-  setFilter = input.required<(field: keyof CardData) => void>();
+  setFilter = input.required<(field: keyof McCardData) => void>();
 
   displayValue = computed(() => this.displayFunc()(this.card()));
   hasValue = computed(() => this.guesses().some(g => g[this.field()] === this.card()[this.field()]));

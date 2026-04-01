@@ -1,6 +1,6 @@
 import {Component, inject, Type} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {CardData, CardDataArrayField} from '../../../model/cardData';
+import {McCardData, McCardDataArrayField} from '../../../model/mcCardData';
 import {CardInfoComponent} from '../card-info/card-info.component';
 import {capitalize, getCardName, getShareLink} from '../../helpers';
 import {ToastService} from '../../../services/toast.service';
@@ -21,9 +21,9 @@ export class SuccessModalComponent {
 
   cardInfoComponent!: Type<CardInfoComponent>;
   mode!: string;
-  card!: CardData;
+  card!: McCardData;
   germanLanguage!: boolean;
-  guesses!: CardData[];
+  guesses!: McCardData[];
   day!: string;
 
   WRONG_EMOJI = "⬛";
@@ -38,7 +38,7 @@ export class SuccessModalComponent {
   }
 
   // configs for each game mode
-  modeConfigs: Record<string, {legend: string, fields: (keyof CardData)[]}> = {
+  modeConfigs: Record<string, {legend: string, fields: (keyof McCardData)[]}> = {
     "": {
       legend: "🗨️🪙👪🅰️🗓️💰📖🃏",
       fields: ["name", "cost", "type", "faction", "year", "resources", "packs", "traits"]
@@ -102,19 +102,19 @@ export class SuccessModalComponent {
     }
   }
 
-  check(guess: CardData, field: keyof CardData) {
+  check(guess: McCardData, field: keyof McCardData) {
     if (field == "name") {
       return this.checkName(guess);
     }
 
     if (Array.isArray(guess[field])) {
-      return this.checkArray(guess, field as CardDataArrayField);
+      return this.checkArray(guess, field as McCardDataArrayField);
     }
     return this.checkValue(guess, field);
   }
 
   // return green if correct, yellow if first letter matches, wrong otherwise
-  checkName(guess: CardData) {
+  checkName(guess: McCardData) {
     let cardName = this.getName(this.card);
     let guessName = this.getName(guess);
     return cardName == guessName ? this.CORRECT_EMOJI :
@@ -122,11 +122,11 @@ export class SuccessModalComponent {
       : this.WRONG_EMOJI;
   }
 
-  checkValue(guess: CardData, field: keyof CardData) {
+  checkValue(guess: McCardData, field: keyof McCardData) {
     return this.card[field] == guess[field] ? this.CORRECT_EMOJI : this.WRONG_EMOJI;
   }
 
-  checkArray(guess: CardData, field: CardDataArrayField) {
+  checkArray(guess: McCardData, field: McCardDataArrayField) {
     let correctArray = this.card[field];
     let guessArray = guess[field];
     let matches = guessArray.filter(v => correctArray.includes(v as never)).length;
@@ -136,7 +136,7 @@ export class SuccessModalComponent {
         : this.WRONG_EMOJI;
   }
 
-  getName(card: CardData) {
+  getName(card: McCardData) {
     return getCardName(card, this.germanLanguage);
   }
 }

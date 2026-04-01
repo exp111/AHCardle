@@ -1,5 +1,5 @@
 import {booleanAttribute, Component, computed, input} from '@angular/core';
-import {CardData} from '../../../model/cardData';
+import {McCardData} from '../../../model/mcCardData';
 import {
   arraysHaveSameValues,
   getCardImage,
@@ -24,27 +24,27 @@ import {CardInfoAttribute} from './card-info-attribute/card-info-attribute.compo
   styleUrl: './card-info.component.scss',
 })
 export class CardInfoComponent {
-  card = input.required<CardData>();
-  correctCard = input.required<CardData>();
+  card = input.required<McCardData>();
+  correctCard = input.required<McCardData>();
   germanLanguage = input.required<boolean>();
   showBorder = input(true, {transform: booleanAttribute});
   showMarvelCDBLink = input(false);
 
   cardImg = computed(() => getCardImage(this.card()));
 
-  getName(card: CardData) {
+  getName(card: McCardData) {
     return getCardName(card, this.germanLanguage());
   }
 
-  getCost(card: CardData) {
+  getCost(card: McCardData) {
     return (card.cost ?? "-").toString();
   }
 
-  getType(card: CardData) {
+  getType(card: McCardData) {
     return getType(card.type);
   }
 
-  getFaction(card: CardData) {
+  getFaction(card: McCardData) {
     return getFaction(card.faction);
   }
 
@@ -56,7 +56,7 @@ export class CardInfoComponent {
     return this.card().resources.some(r => this.correctCard().resources.includes(r));
   }
 
-  getResourceString(card: CardData) {
+  getResourceString(card: McCardData) {
     return sortString(card.resources.join(""));
   }
 

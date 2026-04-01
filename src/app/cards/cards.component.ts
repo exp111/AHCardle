@@ -1,23 +1,18 @@
-import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, inject, OnInit} from '@angular/core';
 import {DataService} from '../../services/data.service';
+import {Observable} from 'rxjs';
 import {CardData} from '../../model/cardData';
 
-@Component({
-  selector: 'app-cards',
-  imports: [],
-  templateUrl: './cards.component.html',
-  styleUrl: './cards.component.scss',
-})
-export class CardsComponent implements OnInit {
+export abstract class AbstractCardsComponent<T extends CardData> implements OnInit {
   dataService = inject(DataService);
   cdr = inject(ChangeDetectorRef);
 
-  cards: CardData[] = [];
+  cards: T[] = [];
   loading = false;
 
   ngOnInit() {
     this.loading = true;
-    this.dataService.getData().subscribe({
+    this.getData().subscribe({
       next: data => {
         this.cards = data.sort((a, b) => a.code.localeCompare(b.code));
         this.loading = false;
@@ -30,4 +25,6 @@ export class CardsComponent implements OnInit {
       }
     })
   }
+
+  abstract getData(): Observable<T[]>;
 }

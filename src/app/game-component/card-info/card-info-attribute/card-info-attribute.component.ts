@@ -1,6 +1,6 @@
 import {booleanAttribute, Component, computed, input} from '@angular/core';
 import {getFaction} from "../../../helpers";
-import {CardData} from '../../../../model/cardData';
+import {McCardData} from '../../../../model/mcCardData';
 
 @Component({
   selector: 'card-info-attribute',
@@ -9,11 +9,11 @@ import {CardData} from '../../../../model/cardData';
   styleUrl: './card-info-attribute.component.scss',
 })
 export class CardInfoAttribute {
-  card = input.required<CardData>();
-  correctCard = input<CardData>();
-  field = input.required<keyof CardData>();
+  card = input.required<McCardData>();
+  correctCard = input<McCardData>();
+  field = input.required<keyof McCardData>();
   isNumber = input(false, {transform: booleanAttribute});
-  displayFunc = input<(c: CardData) => string>((c: CardData) => c[this.field()]!.toString());
+  displayFunc = input<(c: McCardData) => string>((c: McCardData) => c[this.field()]!.toString());
   name = input.required<string>();
 
   displayValue = computed(() => this.displayFunc()(this.card()));

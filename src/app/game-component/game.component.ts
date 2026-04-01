@@ -1,6 +1,5 @@
 import {
   ApplicationRef,
-  Component,
   computed,
   createComponent,
   effect,
@@ -14,9 +13,8 @@ import {
   viewChild
 } from '@angular/core';
 import {DataService} from '../../services/data.service';
-import {FormsModule} from '@angular/forms';
 import {CardInfoComponent} from './card-info/card-info.component';
-import {CardData, CardDataArrayField, CardResource} from '../../model/cardData';
+import {McCardDataArrayField, McCardResource, McCardData} from '../../model/mcCardData';
 import {GuessInfoComponent} from './guess-info/guess-info.component';
 import {
   arraysHaveSameValues,
@@ -32,18 +30,17 @@ import {
   ngbDateToISOString,
   sortString
 } from '../helpers';
-import {NgbDate, NgbInputDatepicker, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDate, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {SuccessModalComponent} from './success-modal/success-modal.component';
 import confetti from 'canvas-confetti';
 import {GITHUB_PAGES_URL, IS_DEV} from '../const';
-import {CustomDayComponent} from './custom-day/custom-day.component';
-import {from} from 'rxjs';
+import {from, Observable} from 'rxjs';
 import {HelpModalComponent} from './help-modal/help-modal.component';
-import {NgComponentOutlet} from '@angular/common';
 import {StatsModalComponent} from './stats-modal/stats-modal.component';
+import {CardData} from '../../model/cardData';
 
 export type FilterType =
-  keyof CardData
+  keyof McCardData
   | "firstLetter"
   | "allResources"
   | "anyResource"
@@ -58,7 +55,7 @@ export interface Filter {
 }
 
 // saved data
-interface SaveData {
+export interface SaveData {
   // code of the gard to guess
   card: string;
   // codes of the cards guessed
@@ -67,22 +64,11 @@ interface SaveData {
 
 // data for the day
 export interface UserData {
-  card: CardData;
-  guesses: CardData[];
+  card: McCardData;
+  guesses: McCardData[];
 }
 
-@Component({
-  selector: 'app-game',
-  imports: [
-    FormsModule,
-    NgbInputDatepicker,
-    CustomDayComponent,
-    NgComponentOutlet
-  ],
-  templateUrl: './game.component.html',
-  styleUrl: './game.component.scss',
-})
-export class GameComponent implements OnInit {
+export abstract class GameComponent<T extends CardData, U extends UserData> implements OnInit {
   dataService = inject(DataService);
   modalService = inject(NgbModal);
 
@@ -100,7 +86,7 @@ export class GameComponent implements OnInit {
   showLegend = signal(false);
 
   // card data
-  cards = signal<CardData[]>([]);
+  cards = signal<T[]>([]);
   // current card which should be guessed
   cardToGuess = computed(() => this.getDailyCard());
   seed = computed(() => this.day());
@@ -184,9 +170,7 @@ export class GameComponent implements OnInit {
     }
   }
 
-  getData() {
-    return this.dataService.getData();
-  }
+  abstract getData(): Observable<T[]>;
 
   createElements() {
     // create guess info comp
@@ -254,63 +238,7 @@ export class GameComponent implements OnInit {
     localStorage.setItem(this.LOCAL_STORAGE_SCHEMA_VERSION_KEY, this.SCHEMA_VERSION);
   }
 
-  matchesFilter(card: CardData) {
-    let filter = this.filter();
-    if (!filter?.length) {
-      return true;
-    }
-
-    for (let criterium of filter) {
-      // for arrays check if the value is contained in the array
-      if (criterium.array) {
-        if (!(card[criterium.filter as CardDataArrayField] as any[]).includes(criterium.value)) {
-          return false;
-        }
-        continue;
-      }
-
-      // custom filters
-      switch (criterium.filter) {
-        case 'firstLetter':
-          if (this.getName(card)[0] != criterium.value) {
-            return false;
-          }
-          break;
-        case 'allResources':
-          if (sortString(card.resources.join("")) != criterium.value) {
-            return false;
-          }
-          break;
-        case 'anyResource':
-          if (!criterium.value.every((r: CardResource) => card.resources.includes(r))) {
-            return false;
-          }
-          break;
-        case 'allPacks':
-          if (!arraysHaveSameValues(card.packs, criterium.value)) {
-            return false;
-          }
-          break;
-        case 'allTraits':
-          if (!arraysHaveSameValues(card.traits, criterium.value)) {
-            return false;
-          }
-          break;
-        case 'anyTrait':
-          if (!criterium.value.every((t: string) => card.traits.includes(t))) {
-            return false;
-          }
-          break;
-        default:
-          // default: just check if the field equals the value
-          if (card[criterium.filter] != criterium.value) {
-            return false;
-          }
-          break;
-      }
-    }
-    return true;
-  }
+  abstract matchesFilter(card: T): boolean;
 
   onDayChange() {
     // reset filter
@@ -329,7 +257,7 @@ export class GameComponent implements OnInit {
     return getRandomItem(this.cards(), seed);
   }
 
-  guessCard(cardData: CardData) {
+  guessCard(cardData: McCardData) {
     if (this.guesses().includes(cardData)) {
       console.log(`Card ${cardData.name} already guessed`);
       return;
@@ -424,7 +352,7 @@ export class GameComponent implements OnInit {
     return this.cards().find(c => c.code == code)!;
   }
 
-  getName(card: CardData) {
+  getName(card: T) {
     return getCardName(card, this.germanLanguage());
   }
 

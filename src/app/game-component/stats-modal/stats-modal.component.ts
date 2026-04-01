@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {UserData} from '../game.component';
 import {StatCard} from './stat-card/stat-card';
-import {CardData} from '../../../model/cardData';
+import {McCardData} from '../../../model/mcCardData';
 import {getCardName} from '../../helpers';
 
 @Component({
@@ -59,7 +59,7 @@ export class StatsModalComponent {
     return `${this.getCardName(card)} (${occurances[card.code]})`;
   }
 
-  getCardName(card: CardData) {
+  getCardName(card: McCardData) {
     return getCardName(card, this.germanLanguage);
   }
 
